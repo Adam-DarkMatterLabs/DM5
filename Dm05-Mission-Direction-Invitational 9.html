@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dm05: five tentative conditions of life and distributed agency under compound shock, and an invitation to think, test and build together.">
+  <meta name="theme-color" content="#111112">
+  <title>Dm05 — A Possible Mission Direction</title>
+  <style>
+    :root {
+      --night: #111112;
+      --night-2: #161618;
+      --night-3: #1d1d1f;
+      --line: #353535;
+      --line-soft: #262626;
+      --white: #ffffff;
+      --text: #e2e2e2;
+      --text-soft: #c2c2c2;
+      --muted: #a8a8a8;
+      --dim: #8d8d8d;
+      --green: #4ca866;
+      --gold: #d29f3d;
+      --violet: #a28cc6;
+      --coral: #d46e61;
+      --blue: #4d90d8;
+      --pink: #d15c8d;
+      --page: min(1200px, calc(100vw - 40px));
+      --gutter: clamp(20px, 4vw, 56px);
+      --header-h: 86px;
+      --ease: cubic-bezier(.22, .61, .36, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      background: var(--night);
+      color-scheme: dark;
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--header-h) + 24px);
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 15% 11%, rgba(76, 168, 102, .055), transparent 28rem),
+        radial-gradient(circle at 84% 28%, rgba(162, 140, 198, .05), transparent 32rem),
+        var(--night);
+      color: var(--text);
+      font-family: "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+      font-size: clamp(17px, 1.35vw, 20px);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::selection { background: var(--text); color: var(--night); }
+
+    a { color: inherit; }
+    button { font: inherit; }
+
+    .skip-link {
+      position: fixed;
+      z-index: 1000;
+      top: 10px;
+      left: 10px;
+      padding: 10px 14px;
+      background: var(--white);
+      color: var(--night);
+      transform: translateY(-150%);
+      transition: transform .2s ease;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    :focus-visible {
+      outline: 2px solid var(--white);
+      outline-offset: 4px;
+    }
+
+    .progress {
+      position: fixed;
+      z-index: 120;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: transparent;
+      pointer-events: none;
+    }
+
+    .progress > span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--green), var(--gold), var(--violet), var(--coral));
+      transition: width .08s linear;
+    }
+
+    .site-header {
+      position: sticky;
+      z-index: 100;
+      top: 0;
+      min-height: var(--header-h);
+      background: linear-gradient(to bottom, rgba(17, 17, 18, 1), rgba(17, 17, 18, .9) 62%, rgba(17, 17, 18, 0));
+    }
+
+    .header-inner {
+      width: var(--page);
+      min-height: var(--header-h);
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 28px;
+      padding-top: 26px;
+    }
+
+    .identity {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      white-space: nowrap;
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .identity-mark {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 43px;
+      height: 43px;
+      border: 1px solid var(--text-soft);
+      background: var(--text);
+      color: var(--night);
+      font-size: 21px;
+      letter-spacing: -.06em;
+    }
+
+    .identity-mark sup {
+      position: absolute;
+      top: 3px;
+      right: 4px;
+      font-size: 7px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .identity-name { color: var(--text-soft); }
+
+    .nav-toggle {
+      display: none;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text-soft);
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .doc-nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: clamp(16px, 2.4vw, 34px);
+      padding-top: 7px;
+      font-size: 14px;
+      color: var(--dim);
+    }
+
+    .doc-nav a {
+      position: relative;
+      padding: 4px 0 10px;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+
+    .doc-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: 4px;
+      height: 1px;
+      background: currentColor;
+      transition: right .25s var(--ease);
+    }
+
+    .doc-nav a:hover,
+    .doc-nav a[aria-current="true"] { color: var(--white); }
+    .doc-nav a:hover::after,
+    .doc-nav a[aria-current="true"]::after { right: 0; }
+
+    main { overflow-x: hidden; overflow: clip; }
+    .page { width: var(--page); margin: 0 auto; }
+
+    .eyebrow,
+    .section-kicker,
+    .micro-label {
+      margin: 0;
+      color: var(--dim);
+      font-size: 12px;
+      line-height: 1.25;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      min-height: calc(100svh - var(--header-h));
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      align-items: center;
+      padding: clamp(56px, 10vh, 120px) 0 clamp(80px, 14vh, 160px);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .hero-map {
+      grid-column: 1 / span 4;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      min-height: 520px;
+      opacity: .9;
+    }
+
+    .hero-map svg { width: 100%; height: auto; overflow: visible; }
+    .map-line { fill: none; stroke: #454545; stroke-width: 1; }
+    .map-line.faint { stroke-dasharray: 3 8; opacity: .65; }
+    .map-ring { fill: none; stroke: #2c2c2f; stroke-width: 1; }
+    .map-core { fill: var(--night); stroke: var(--text-soft); stroke-width: 1; }
+    .map-node { stroke: var(--night); stroke-width: 7; }
+    .map-copy { fill: var(--muted); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+    .map-number { fill: var(--night); font-size: 11px; font-weight: 600; }
+    .map-core-copy { fill: var(--text); font-size: 11.5px; text-anchor: middle; }
+    .map-core-home { fill: var(--night); stroke: var(--blue); stroke-width: 2; }
+    .map-home-number { fill: var(--blue); font-size: 9px; font-weight: 600; text-anchor: middle; }
+    .map-home-copy { fill: var(--text); font-size: 9px; letter-spacing: .055em; text-anchor: middle; }
+    .map-home-copy.small { fill: var(--muted); font-size: 7px; }
+
+    .hero-copy {
+      grid-column: 5 / span 8;
+      max-width: 760px;
+      padding-bottom: 2vh;
+    }
+
+    .hero h1 {
+      margin: 24px 0 30px;
+      color: var(--text);
+      font-size: clamp(58px, 7.3vw, 106px);
+      font-weight: 400;
+      letter-spacing: -.055em;
+      line-height: .92;
+    }
+
+    .hero h1 span { color: var(--muted); }
+
+    .hero-deck {
+      max-width: 650px;
+      margin: 0;
+      color: var(--text-soft);
+      font-size: clamp(21px, 2.15vw, 31px);
+      line-height: 1.28;
+      letter-spacing: -.018em;
+    }
+
+    .hero-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 38px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(76, 168, 102, .1);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 44px;
+    }
+
+    .text-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      border-bottom: 1px solid var(--dim);
+      color: var(--text-soft);
+      text-decoration: none;
+      font-size: 15px;
+      transition: color .2s ease, border-color .2s ease;
+    }
+
+    .text-link::after { content: "↓"; transition: transform .2s var(--ease); }
+    .text-link.external::after { content: "↗"; }
+    .text-link.up::after { content: "↑"; }
+    .text-link:hover { color: var(--white); border-color: var(--white); }
+    .text-link:hover::after { transform: translate(2px, 2px); }
+
+    .section {
+      padding: clamp(96px, 14vw, 180px) 0;
+      border-bottom: 1px solid var(--line-soft);
+      scroll-margin-top: calc(var(--header-h) + 20px);
+    }
+
+    .editorial-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+    }
+
+    .rail { grid-column: 1 / span 3; }
+    .reading { grid-column: 5 / span 7; max-width: 730px; }
+
+    .display-heading {
+      margin: 0 0 42px;
+      color: var(--text);
+      font-size: clamp(43px, 5vw, 72px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1.02;
+    }
+
+    .lead {
+      margin: 0 0 30px;
+      color: var(--text-soft);
+      font-size: clamp(24px, 2.4vw, 34px);
+      line-height: 1.3;
+      letter-spacing: -.025em;
+    }
+
+    .reading p { margin: 0 0 1.4em; }
+    .reading p:last-child { margin-bottom: 0; }
+
+    .proposition {
+      margin: clamp(64px, 8vw, 104px) 0 0;
+      padding: 34px 0 0;
+      border-top: 1px solid var(--line);
+      color: var(--text);
+      font-size: clamp(29px, 3.75vw, 53px);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1.14;
+    }
+
+    .proposition::before {
+      content: "Working proposition";
+      display: block;
+      margin-bottom: 24px;
+      color: var(--dim);
+      font-size: 12px;
+      line-height: 1;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .shorthand {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin-top: 70px;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .shorthand li {
+      min-height: 130px;
+      padding: 24px 18px 28px 0;
+      border-right: 1px solid var(--line);
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
+    .shorthand li:not(:first-child) { padding-left: 22px; }
+    .shorthand li[data-field="00"] {
+      grid-column: 1 / span 4;
+      min-height: 108px;
+      padding-left: 0;
+      border-right: 0;
+      border-top: 1px solid var(--line);
+    }
+    .shorthand li[data-field="04"] { border-right: 0; }
+    .shorthand span { display: block; margin-bottom: 28px; color: var(--dim); font-size: 11px; }
+
+    .audiences {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 92px;
+    }
+
+    .audience {
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+    }
+
+    .audience h3 {
+      margin: 0 0 16px;
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 400;
+    }
+
+    .audience p { margin: 0; color: var(--muted); font-size: 16px; }
+
+    .working-hypotheses {
+      margin-top: 112px;
+      padding-top: 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .working-hypotheses > .micro-label { margin: 0 0 24px; }
+
+    .working-hypotheses > h3 {
+      max-width: 650px;
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: clamp(30px, 3.7vw, 50px);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1.08;
+    }
+
+    .working-hypotheses > p:not(.micro-label) {
+      max-width: 650px;
+      margin: 0 0 30px;
+      color: var(--text-soft);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .working-hypotheses > p:last-child { margin-bottom: 0; }
+
+    .hypothesis-grid {
+      counter-reset: hypothesis;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .hypothesis {
+      counter-increment: hypothesis;
+      min-width: 0;
+      padding: 28px 26px 30px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .01);
+    }
+
+    .hypothesis::before {
+      content: "0" counter(hypothesis);
+      display: block;
+      margin-bottom: 46px;
+      color: var(--dim);
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+
+    .hypothesis h4 {
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: -.025em;
+      line-height: 1.15;
+    }
+
+    .hypothesis > p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .hypothesis-boundary {
+      margin-top: 28px !important;
+      padding-top: 16px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--text-soft) !important;
+      font-size: 12px !important;
+    }
+
+    .hypothesis-boundary span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .fields-intro {
+      display: grid;
+      grid-template-columns: 4fr 7fr 1fr;
+      gap: 20px;
+      align-items: end;
+      margin-bottom: 62px;
+    }
+
+    .fields-intro .display-heading { grid-column: 2; margin-bottom: 0; }
+
+    .fields-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .field-card {
+      --accent: var(--green);
+      position: relative;
+      min-height: 420px;
+      padding: clamp(28px, 4vw, 48px);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: inherit;
+      text-decoration: none;
+      overflow: hidden;
+      transition: background .3s var(--ease);
+    }
+
+    .field-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 100%;
+      height: 3px;
+      background: var(--accent);
+      transition: right .35s var(--ease);
+    }
+
+    .field-card::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      bottom: -120px;
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+      border-radius: 50%;
+      opacity: .35;
+      transform: scale(.8);
+      transition: transform .45s var(--ease), opacity .45s var(--ease);
+    }
+
+    .field-card:hover { background: rgba(255, 255, 255, .018); }
+    .field-card:hover::before { right: 0; }
+    .field-card:hover::after { opacity: .8; transform: scale(1); }
+    .field-card[data-field="00"] {
+      --accent: var(--blue);
+      grid-column: 1 / span 2;
+      min-height: 360px;
+    }
+    .field-card[data-field="00"] h3,
+    .field-card[data-field="00"] .field-transition { max-width: 820px; }
+    .field-card[data-field="02"] { --accent: var(--gold); }
+    .field-card[data-field="03"] { --accent: var(--violet); }
+    .field-card[data-field="04"] { --accent: var(--coral); }
+
+    .field-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--dim);
+      font-size: 12px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .field-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .field-card h3 {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      margin: 56px 0 36px;
+      color: var(--text);
+      font-size: clamp(31px, 3.25vw, 48px);
+      font-weight: 400;
+      letter-spacing: -.04em;
+      line-height: 1.06;
+    }
+
+    .field-transition {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+      display: grid;
+      grid-template-columns: auto 24px 1fr;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .field-transition span:nth-child(2) { color: var(--accent); }
+
+    .mission {
+      --accent: var(--green);
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      padding: clamp(112px, 15vw, 190px) 0;
+      border-bottom: 1px solid var(--line-soft);
+      scroll-margin-top: calc(var(--header-h) + 20px);
+    }
+
+    .mission[data-field="00"] { --accent: var(--blue); }
+    .mission[data-field="02"] { --accent: var(--gold); }
+    .mission[data-field="03"] { --accent: var(--violet); }
+    .mission[data-field="04"] { --accent: var(--coral); }
+
+    .mission-number {
+      grid-column: 1 / span 3;
+      align-self: start;
+      position: sticky;
+      top: calc(var(--header-h) + 34px);
+      color: var(--accent);
+      font-size: clamp(72px, 9vw, 132px);
+      font-weight: 400;
+      letter-spacing: -.065em;
+      line-height: .8;
+    }
+
+    .mission-number small {
+      display: block;
+      margin-top: 30px;
+      color: var(--dim);
+      font-size: 11px;
+      letter-spacing: .11em;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .mission-main { grid-column: 4 / span 6; }
+
+    .mission h2 {
+      margin: 18px 0 42px;
+      color: var(--text);
+      font-size: clamp(43px, 5.1vw, 72px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1.02;
+    }
+
+    .governing-question {
+      margin: 0 0 54px;
+      padding: 24px 0 26px;
+      border-top: 1px solid var(--accent);
+      border-bottom: 1px solid var(--line);
+      color: var(--text-soft);
+      font-size: clamp(23px, 2.4vw, 34px);
+      letter-spacing: -.025em;
+      line-height: 1.32;
+    }
+
+    .mission-main p { margin: 0 0 1.45em; }
+    .mission-main strong { color: var(--text); font-weight: 500; }
+    .mission-main .inline-link {
+      color: var(--text);
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    .mission-aside {
+      grid-column: 10 / span 3;
+      align-self: start;
+      margin-top: 102px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .mission-aside h3 {
+      margin: 0 0 24px;
+      color: var(--text-soft);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .mission-aside ul { margin: 0; padding: 0; list-style: none; }
+    .mission-aside li { padding: 14px 0; border-top: 1px solid var(--line-soft); }
+    .mission-aside li:first-child { padding-top: 0; border-top: 0; }
+
+    details {
+      margin-top: 48px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    summary {
+      position: relative;
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      padding: 14px 52px 14px 0;
+      color: var(--text-soft);
+      cursor: pointer;
+      font-size: 15px;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: "+";
+      position: absolute;
+      right: 0;
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 300;
+      transition: transform .25s ease;
+    }
+
+    details[open] summary::after { transform: rotate(45deg); }
+
+    .inquiries {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0 0 18px;
+      list-style: none;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .inquiries li {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      padding: 14px 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .inquiries li::before { content: "↳"; color: var(--accent); }
+
+    .closing-invite {
+      margin-top: 54px !important;
+      padding-left: 24px;
+      border-left: 2px solid var(--accent);
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
+    .triple-use {
+      counter-reset: triple-use;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 46px 0 50px;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .triple-use li {
+      counter-increment: triple-use;
+      min-width: 0;
+      min-height: 310px;
+      padding: 22px 20px 26px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(212, 110, 97, .055), transparent 46%);
+    }
+
+    .triple-use li::before {
+      content: "0" counter(triple-use);
+      display: block;
+      margin-bottom: 48px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+
+    .triple-use h3 {
+      margin: 0 0 14px;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: -.02em;
+      line-height: 1.18;
+    }
+
+    .triple-use p {
+      margin: 0 !important;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .framework-label {
+      margin: 46px 0 14px !important;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .framework-grid {
+      counter-reset: framework;
+      display: grid;
+      margin: 0 0 50px;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .framework-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .framework-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    .framework-grid li {
+      counter-increment: framework;
+      min-width: 0;
+      min-height: 230px;
+      padding: 22px 22px 26px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .012);
+    }
+
+    .framework-grid.three li { min-height: 275px; }
+
+    .framework-grid li::before {
+      content: "0" counter(framework);
+      display: block;
+      margin-bottom: 42px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+
+    .framework-grid h3 {
+      margin: 0 0 14px;
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: -.02em;
+      line-height: 1.18;
+    }
+
+    .framework-grid p {
+      margin: 0 !important;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .cross-field {
+      margin: 50px 0 !important;
+      padding: 22px 0 0 24px;
+      border-top: 1px solid var(--line);
+      border-left: 2px solid var(--accent);
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
+    .cross-field span {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .connections {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      margin-top: 70px;
+    }
+
+    .connections-copy { grid-column: 1 / span 4; }
+    .connections-copy p { max-width: 330px; color: var(--muted); font-size: 16px; }
+    .connection-list { grid-column: 5 / span 8; margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+
+    .connection {
+      display: grid;
+      grid-template-columns: 2fr 42px 2fr;
+      gap: 16px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--text-soft);
+      font-size: 16px;
+    }
+
+    .connection span:nth-child(2) { color: var(--dim); text-align: center; }
+    .connection small { display: block; margin-top: 6px; color: var(--dim); font-size: 13px; }
+
+    .operating-sites {
+      margin-top: 110px;
+      padding-top: 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .operating-sites-head {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      margin-bottom: 54px;
+    }
+
+    .operating-sites-head > .micro-label { grid-column: 1 / span 3; margin: 0; }
+    .operating-sites-head > div { grid-column: 5 / span 7; }
+
+    .operating-sites-head h3 {
+      margin: 0 0 22px;
+      color: var(--text);
+      font-size: clamp(34px, 4.5vw, 62px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1.04;
+    }
+
+    .operating-sites-head p { max-width: 720px; margin: 0; color: var(--text-soft); font-size: 18px; line-height: 1.55; }
+
+    .site-scale {
+      counter-reset: site;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .site-scale li {
+      counter-increment: site;
+      min-width: 0;
+      min-height: 285px;
+      padding: 22px 20px 26px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-scale li::before {
+      content: "0" counter(site);
+      display: block;
+      margin-bottom: 48px;
+      color: var(--dim);
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+
+    .site-scale h4 { margin: 0 0 14px; color: var(--text); font-size: 19px; font-weight: 400; line-height: 1.15; }
+    .site-scale p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .site-note {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 28px;
+      margin-top: 50px;
+      padding-top: 26px;
+      border-top: 1px solid var(--line);
+    }
+
+    .site-note p { margin: 0; }
+    .site-note p:last-child { color: var(--text-soft); font-size: 18px; line-height: 1.55; }
+
+    .architecture-section {
+      background:
+        linear-gradient(135deg, rgba(77, 144, 216, .05), transparent 38%),
+        linear-gradient(315deg, rgba(76, 168, 102, .045), transparent 42%),
+        var(--night-2);
+    }
+
+    .architecture-section .page { padding-top: clamp(100px, 14vw, 170px); padding-bottom: clamp(100px, 14vw, 170px); }
+
+    .architecture-head {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      margin-bottom: 72px;
+    }
+
+    .architecture-head .section-kicker { grid-column: 1 / span 3; }
+    .architecture-head > div { grid-column: 5 / span 7; }
+    .architecture-head p { max-width: 690px; color: var(--muted); }
+
+    .architecture-grid {
+      counter-reset: architecture;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .architecture-grid li {
+      counter-increment: architecture;
+      min-height: 260px;
+      padding: 28px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .architecture-grid li::before {
+      content: "0" counter(architecture);
+      display: block;
+      margin-bottom: 54px;
+      color: var(--dim);
+      font-size: 12px;
+      letter-spacing: .08em;
+    }
+
+    .architecture-grid h3 { margin: 0 0 12px; color: var(--text); font-size: 22px; font-weight: 400; }
+    .architecture-grid p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.45; }
+
+    .praxis-note {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 28px;
+      margin-top: 60px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .praxis-note p { margin: 0; color: var(--text-soft); }
+
+    .funding-section {
+      background:
+        radial-gradient(circle at 12% 20%, rgba(77, 144, 216, .07), transparent 28%),
+        radial-gradient(circle at 86% 78%, rgba(210, 159, 61, .055), transparent 30%),
+        var(--night-3);
+      border-bottom: 1px solid var(--line-soft);
+      scroll-margin-top: calc(var(--header-h) + 20px);
+    }
+
+    .funding-section .page { padding-top: clamp(100px, 14vw, 170px); padding-bottom: clamp(100px, 14vw, 170px); }
+
+    .funding-head {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 20px;
+      margin-bottom: 72px;
+    }
+
+    .funding-head .section-kicker { grid-column: 1 / span 3; }
+    .funding-head > div { grid-column: 5 / span 7; }
+    .funding-head .display-heading { margin-bottom: 32px; }
+    .funding-head .lead { margin: 0; }
+
+    .funding-anchors {
+      counter-reset: funding-anchor;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .funding-anchor {
+      --fund-accent: var(--blue);
+      counter-increment: funding-anchor;
+      min-width: 0;
+      padding: 30px 28px 34px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .012);
+    }
+
+    .funding-anchor:nth-child(2) { --fund-accent: var(--green); }
+    .funding-anchor:nth-child(3) { --fund-accent: var(--gold); }
+
+    .funding-anchor::before {
+      content: "0" counter(funding-anchor);
+      display: block;
+      margin-bottom: 54px;
+      color: var(--fund-accent);
+      font-size: 12px;
+      letter-spacing: .1em;
+    }
+
+    .fund-role {
+      margin: 0 0 16px;
+      color: var(--fund-accent);
+      font-size: 11px;
+      letter-spacing: .09em;
+      line-height: 1.35;
+      text-transform: uppercase;
+    }
+
+    .funding-anchor h3 {
+      margin: 0 0 24px;
+      color: var(--text);
+      font-size: clamp(25px, 2.55vw, 36px);
+      font-weight: 400;
+      letter-spacing: -.035em;
+      line-height: 1.08;
+    }
+
+    .funding-anchor > p:not(.fund-role):not(.fund-stage) {
+      margin: 0 0 1.35em;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .fund-stage {
+      margin: 32px 0 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--text-soft);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .fund-stage span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .agency-architecture {
+      margin-top: 78px;
+      padding-top: 30px;
+      border-top: 1px solid var(--line);
+    }
+
+    .agency-architecture > .micro-label { margin: 0 0 28px; }
+
+    .agency-flow {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 46px minmax(0, 1fr) 46px minmax(0, 1fr);
+      align-items: stretch;
+    }
+
+    .agency-step {
+      min-width: 0;
+      padding: 26px 26px 30px;
+      border: 1px solid var(--line);
+    }
+
+    .agency-step span {
+      color: var(--dim);
+      font-size: 11px;
+      letter-spacing: .1em;
+    }
+
+    .agency-step h3 {
+      margin: 44px 0 12px;
+      color: var(--text);
+      font-size: clamp(30px, 3.4vw, 48px);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1;
+    }
+
+    .agency-step p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+    .agency-arrow { align-self: center; color: var(--dim); font-size: 21px; text-align: center; }
+    .agency-arrow.vertical { display: none; }
+
+    .funding-thesis {
+      max-width: 900px;
+      margin: 62px 0 0;
+      color: var(--text);
+      font-size: clamp(27px, 3.25vw, 45px);
+      letter-spacing: -.035em;
+      line-height: 1.18;
+    }
+
+    .funding-thesis small {
+      display: block;
+      margin-top: 26px;
+      color: var(--muted);
+      font-size: 15px;
+      letter-spacing: 0;
+      line-height: 1.55;
+    }
+
+    .funding-questions { max-width: 860px; margin-top: 62px; }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 68px;
+      border-top: 1px solid var(--line);
+    }
+
+    .work-card { padding: 30px 34px 34px 0; border-right: 1px solid var(--line); }
+    .work-card:not(:first-child) { padding-left: 34px; }
+    .work-card:last-child { border-right: 0; }
+    .work-card span { color: var(--dim); font-size: 12px; }
+    .work-card h3 { margin: 36px 0 18px; color: var(--text); font-size: 24px; font-weight: 400; }
+    .work-card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    .role-note {
+      margin-top: 64px;
+      padding: 32px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      color: var(--text-soft);
+      font-size: clamp(22px, 2.5vw, 34px);
+      line-height: 1.35;
+      letter-spacing: -.025em;
+    }
+
+    .guardrails {
+      background: var(--text);
+      color: var(--night);
+    }
+
+    .guardrails .page { padding-top: clamp(90px, 12vw, 150px); padding-bottom: clamp(90px, 12vw, 150px); }
+    .guardrails .section-kicker { color: #595959; }
+    .guardrails .display-heading { max-width: 800px; color: var(--night); }
+
+    .guardrail-words {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 56px 0 66px;
+      padding: 0;
+      border-top: 1px solid #9b9b9b;
+      border-left: 1px solid #9b9b9b;
+      list-style: none;
+    }
+
+    .guardrail-words li {
+      flex: 1 1 25%;
+      min-width: 220px;
+      padding: 18px 20px;
+      border-right: 1px solid #9b9b9b;
+      border-bottom: 1px solid #9b9b9b;
+      font-size: 16px;
+    }
+
+    .guardrail-statement {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 36px;
+      padding-top: 30px;
+      border-top: 1px solid #9b9b9b;
+    }
+
+    .guardrail-statement p { margin: 0; font-size: clamp(21px, 2.4vw, 31px); line-height: 1.35; }
+
+    .invitation {
+      min-height: 92svh;
+      display: flex;
+      align-items: center;
+    }
+
+    .invitation-inner { width: 100%; padding: clamp(100px, 14vw, 180px) 0; }
+    .invitation h2 { max-width: 1040px; margin-bottom: 32px; }
+
+    .invitation-intro {
+      max-width: 860px;
+      margin: 0 0 68px;
+      color: var(--text-soft);
+      font-size: clamp(21px, 2.2vw, 30px);
+      line-height: 1.4;
+      letter-spacing: -.02em;
+    }
+
+    .open-question-grid {
+      counter-reset: open-question;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      list-style: none;
+    }
+
+    .open-question {
+      counter-increment: open-question;
+      min-height: 520px;
+      padding: clamp(30px, 4vw, 48px);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .open-question::before {
+      content: "0" counter(open-question);
+      display: block;
+      margin-bottom: 58px;
+      color: var(--dim);
+      font-size: 12px;
+      letter-spacing: .1em;
+    }
+
+    .open-question h3 {
+      max-width: 520px;
+      margin: 0 0 18px;
+      color: var(--text);
+      font-size: clamp(27px, 3vw, 40px);
+      font-weight: 400;
+      line-height: 1.12;
+      letter-spacing: -.035em;
+    }
+
+    .open-question-frame {
+      max-width: 520px;
+      margin: 0 0 30px;
+      color: var(--text-soft);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .open-question ul { margin: 0; padding: 0; list-style: none; }
+
+    .open-question li {
+      position: relative;
+      padding: 14px 0 14px 22px;
+      border-top: 1px solid var(--line-soft);
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.48;
+    }
+
+    .open-question li::before {
+      content: "↳";
+      position: absolute;
+      top: 14px;
+      left: 0;
+      color: var(--dim);
+    }
+
+    .open-questions-note {
+      display: grid;
+      grid-template-columns: 1fr 3fr;
+      gap: 28px;
+      margin-top: 62px;
+      padding-top: 28px;
+      border-top: 1px solid var(--line);
+    }
+
+    .open-questions-note p { margin: 0; }
+    .open-questions-note p:last-child { color: var(--text-soft); font-size: 20px; line-height: 1.5; }
+
+    .final-proposition {
+      max-width: 980px;
+      margin: 86px 0 0;
+      color: var(--text);
+      font-size: clamp(32px, 4.6vw, 66px);
+      line-height: 1.1;
+      letter-spacing: -.045em;
+    }
+
+    .final-actions { display: flex; flex-wrap: wrap; gap: 22px; margin-top: 48px; }
+
+    .site-footer {
+      border-top: 1px solid var(--line);
+      background: #0e0e0f;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      width: var(--page);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 4fr 4fr 4fr;
+      gap: 20px;
+      padding: 70px 0 82px;
+      font-size: 13px;
+    }
+
+    .footer-identity { display: flex; align-items: center; gap: 12px; color: var(--text-soft); }
+    .footer-meta p { margin: 0 0 6px; }
+    .footer-note { max-width: 360px; }
+    .footer-note p { margin: 0; }
+
+    .js .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+
+    .js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 1100px) {
+      .site-scale { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .shorthand { grid-template-columns: 1fr 1fr; }
+      .shorthand li[data-field="00"] { grid-column: 1 / span 2; }
+      .shorthand li[data-field="02"], .shorthand li[data-field="04"] { border-right: 0; }
+      .shorthand li[data-field="01"], .shorthand li[data-field="02"] { border-bottom: 1px solid var(--line); }
+      .framework-grid.three, .triple-use { grid-template-columns: 1fr; }
+      .framework-grid.three li, .triple-use li { min-height: 0; }
+      .framework-grid.three li::before, .triple-use li::before { margin-bottom: 26px; }
+    }
+
+    @media (max-width: 980px) {
+      :root { --page: calc(100% - 34px); }
+      .hero-map { grid-column: 1 / span 5; }
+      .hero-copy { grid-column: 6 / span 7; }
+      .rail { grid-column: 1 / span 3; }
+      .reading { grid-column: 4 / span 9; }
+      .mission-number { grid-column: 1 / span 2; }
+      .mission-main { grid-column: 3 / span 7; }
+      .mission-aside { grid-column: 10 / span 3; }
+      .architecture-grid { grid-template-columns: repeat(2, 1fr); }
+      .hypothesis-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      :root { --header-h: 76px; --page: calc(100% - 32px); }
+      body { font-size: 17px; }
+      .header-inner { position: relative; padding-top: 16px; align-items: flex-start; }
+      .identity-mark { width: 42px; height: 42px; }
+      .js .nav-toggle { display: block; margin-top: 3px; }
+      .doc-nav {
+        position: absolute;
+        top: 68px;
+        right: 0;
+        left: 0;
+        display: flex;
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+        padding: 14px 18px 18px;
+        border: 1px solid var(--line);
+        background: rgba(17, 17, 18, .98);
+      }
+      .js .doc-nav { display: none; }
+      .js .doc-nav.is-open { display: flex; }
+      .doc-nav a { min-height: 46px; display: flex; align-items: center; border-bottom: 1px solid var(--line-soft); }
+      .doc-nav a:last-child { border-bottom: 0; }
+      .hero { min-height: auto; grid-template-columns: 1fr; padding-top: 62px; }
+      .hero-map { grid-column: 1; min-height: 340px; max-width: 430px; order: 2; margin: 36px auto 0; }
+      .hero-copy { grid-column: 1; order: 1; }
+      .hero h1 { font-size: clamp(54px, 15vw, 82px); }
+      .hero-deck { font-size: 22px; }
+      .editorial-grid, .fields-intro, .mission, .architecture-head, .funding-head, .connections { grid-template-columns: 1fr; }
+      .rail, .reading, .fields-intro .display-heading, .mission-number, .mission-main, .mission-aside,
+      .architecture-head .section-kicker, .architecture-head > div, .funding-head .section-kicker, .funding-head > div,
+      .connections-copy, .connection-list { grid-column: 1; }
+      .rail { margin-bottom: 36px; }
+      .reading { max-width: none; }
+      .shorthand { grid-template-columns: 1fr 1fr; }
+      .shorthand li[data-field="00"] { grid-column: 1 / span 2; }
+      .shorthand li[data-field="02"], .shorthand li[data-field="04"] { border-right: 0; }
+      .shorthand li[data-field="01"], .shorthand li[data-field="02"] { border-bottom: 1px solid var(--line); }
+      .audiences, .hypothesis-grid, .fields-grid, .work-grid, .open-question-grid { grid-template-columns: 1fr; }
+      .audiences { gap: 50px; }
+      .fields-intro { margin-bottom: 42px; }
+      .field-card { min-height: 340px; }
+      .field-card[data-field="00"] { grid-column: 1; min-height: 340px; }
+      .mission { gap: 0; }
+      .mission-number { position: static; margin-bottom: 52px; font-size: 82px; }
+      .mission-number small { margin-top: 18px; }
+      .mission-aside { margin-top: 62px; }
+      .triple-use { grid-template-columns: 1fr; }
+      .triple-use li { min-height: 0; }
+      .triple-use li::before { margin-bottom: 26px; }
+      .framework-grid.four, .framework-grid.three { grid-template-columns: 1fr; }
+      .framework-grid li, .framework-grid.three li { min-height: 0; }
+      .framework-grid li::before { margin-bottom: 26px; }
+      .connection { grid-template-columns: 1fr; gap: 8px; }
+      .connection span:nth-child(2) { text-align: left; }
+      .operating-sites-head { grid-template-columns: 1fr; }
+      .operating-sites-head > .micro-label, .operating-sites-head > div { grid-column: 1; }
+      .site-scale { grid-template-columns: 1fr; }
+      .site-scale li { min-height: 0; }
+      .site-scale li::before { margin-bottom: 26px; }
+      .site-note { grid-template-columns: 1fr; }
+      .architecture-grid { grid-template-columns: 1fr; }
+      .architecture-grid li { min-height: 210px; }
+      .funding-anchors { grid-template-columns: 1fr; }
+      .agency-flow { grid-template-columns: 1fr; }
+      .agency-arrow.horizontal { display: none; }
+      .agency-arrow.vertical { display: block; padding: 12px 0; }
+      .praxis-note, .guardrail-statement { grid-template-columns: 1fr; }
+      .work-card { padding: 28px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .work-card:not(:first-child) { padding-left: 0; }
+      .work-card:last-child { border-bottom: 0; }
+      .open-question { min-height: 0; }
+      .open-questions-note { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 38px; }
+    }
+
+    @media (max-width: 480px) {
+      .identity-name { display: none; }
+      .shorthand { grid-template-columns: 1fr; }
+      .shorthand li[data-field="00"] { grid-column: 1; border-top: 0; }
+      .shorthand li, .shorthand li:not(:first-child) { min-height: 92px; padding: 20px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .shorthand li:last-child { border-bottom: 0; }
+      .shorthand span { margin-bottom: 12px; }
+      .field-card { padding: 26px 22px; }
+      .field-transition { grid-template-columns: 1fr; gap: 6px; }
+      .site-scale p, .hypothesis-boundary { font-size: 13px !important; }
+      .guardrail-words li { flex-basis: 100%; min-width: 0; }
+    }
+
+    @media (max-width: 340px) {
+      .hero-copy { min-width: 0; }
+      .hero h1 { font-size: 49px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .js .reveal { opacity: 1; transform: none; }
+    }
+
+    @media print {
+      :root { --night: #fff; --night-2: #fff; --night-3: #fff; --text: #111; --text-soft: #222; --muted: #444; --dim: #555; --line: #aaa; --line-soft: #ccc; }
+      body { background: #fff; color: #111; font-size: 11pt; }
+      .site-header, .progress, .hero-map, .hero-actions, .nav-toggle { display: none !important; }
+      .js .reveal { opacity: 1 !important; transform: none !important; }
+      .hero { min-height: auto; padding-top: 30pt; }
+      .section, .mission, .architecture-section .page, .funding-section .page, .guardrails .page, .invitation-inner { padding-top: 40pt; padding-bottom: 40pt; }
+      .mission-number { position: static; }
+      .guardrails { background: #eee; color: #111; }
+      .field-card, .hypothesis, .mission, .site-scale li, .architecture-grid li, .funding-anchor, .agency-step, .work-card, .open-question { break-inside: avoid; }
+      details:not([open]) > *:not(summary) { display: block; }
+      a { text-decoration: none; }
+    }
+  </style>
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to the mission direction</a>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="identity" href="#top" aria-label="Dm05, Dark Matter Labs, return to top">
+        <span class="identity-mark" aria-hidden="true">Dm<sup>05</sup></span>
+        <span class="identity-name">Dark Matter Labs</span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="doc-nav">Menu</button>
+      <nav class="doc-nav" id="doc-nav" aria-label="Dm05 document sections">
+        <a href="#direction">Direction</a>
+        <a href="#fields">Five landscapes</a>
+        <a href="#architecture">Architecture</a>
+        <a href="#funding">Funding</a>
+        <a href="#invitation">Open questions</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <section class="hero page" id="top" aria-labelledby="hero-title">
+        <div class="hero-map" aria-hidden="true">
+          <svg viewBox="0 0 420 500" role="img">
+            <circle class="map-ring" cx="210" cy="250" r="165"/>
+            <circle class="map-ring" cx="210" cy="250" r="105"/>
+            <path class="map-line faint" d="M210 250L105 120M210 250L315 120M210 250L350 310M210 250L210 405M210 250L70 310"/>
+            <path class="map-line" d="M105 120L315 120L350 310L210 405L70 310Z"/>
+            <circle class="map-core" cx="210" cy="250" r="47"/>
+            <text class="map-core-copy" x="210" y="247">TRANSITION</text>
+            <text class="map-core-copy" x="210" y="262">CAPACITY</text>
+
+            <circle class="map-node" cx="105" cy="120" r="18" fill="#4ca866"/>
+            <text class="map-number" x="105" y="123" text-anchor="middle">01</text>
+            <text class="map-copy" x="105" y="76" text-anchor="middle">COMPOUND NUTRITION RISK</text>
+            <text class="map-copy" x="105" y="90" text-anchor="middle">GUARANTEED FLOOR</text>
+
+            <circle class="map-node" cx="315" cy="120" r="18" fill="#d29f3d"/>
+            <text class="map-number" x="315" y="123" text-anchor="middle">02</text>
+            <text class="map-copy" x="315" y="76" text-anchor="middle">AUTOMATION SHOCK</text>
+            <text class="map-copy" x="315" y="90" text-anchor="middle">POST-LABOUR SETTLEMENT</text>
+
+            <circle class="map-node" cx="350" cy="310" r="18" fill="#a28cc6"/>
+            <text class="map-number" x="350" y="313" text-anchor="middle">03</text>
+            <text class="map-copy" x="325" y="351" text-anchor="middle">CERTAINTY MACHINES</text>
+            <text class="map-copy" x="325" y="365" text-anchor="middle">DOUBTFUL RELATIONS</text>
+
+            <circle class="map-node" cx="210" cy="405" r="18" fill="#d46e61"/>
+            <text class="map-number" x="210" y="408" text-anchor="middle">04</text>
+            <text class="map-copy" x="210" y="449" text-anchor="middle">PRODUCTIVE DEPENDENCY</text>
+            <text class="map-copy" x="210" y="463" text-anchor="middle">TRIPLE-USE CAPACITY</text>
+
+            <circle class="map-node" cx="70" cy="310" r="18" fill="#4f9fe8"/>
+            <text class="map-number" x="70" y="313" text-anchor="middle">00</text>
+            <text class="map-copy" x="95" y="351" text-anchor="middle">EXTRACTIVE PROPERTY</text>
+            <text class="map-copy" x="95" y="365" text-anchor="middle">SELF-OWNING FREEHOUSE</text>
+          </svg>
+        </div>
+
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Dm05 · Working mission direction · July 2026</p>
+          <h1 id="hero-title">Foundational<br>systems<br><span>in transition</span></h1>
+          <p class="hero-deck">A possible direction for Dark Matter Labs—and an invitation to think, challenge, locate and build it with others.</p>
+          <p class="hero-status"><span class="pulse" aria-hidden="true"></span>A proposition in formation, not a settled strategy.</p>
+          <div class="hero-actions">
+            <a class="text-link" href="#direction">Enter the proposition</a>
+            <a class="text-link" href="#fields">See the five landscapes</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section page" id="direction" aria-labelledby="direction-title">
+        <div class="editorial-grid">
+          <div class="rail reveal"><p class="section-kicker">01 / An opening invitation</p></div>
+          <div class="reading reveal">
+            <h2 class="display-heading" id="direction-title">This note is offered as a possible direction.</h2>
+            <p class="lead">It asks whether five emerging fields might offer a coherent focus for the next season of Dark Matter Labs.</p>
+            <p>For those within Dm, it is an invitation to see whether these directions bring together questions, capabilities and relationships already alive across the organisation—and what they might ask us to begin, stop or compose differently. For those beyond Dm, it is an invitation to challenge the framing, locate it in particular places and institutions, and explore what might be tested or built together.</p>
+            <p>We may be entering a period in which transition is shaped less by orderly reform than by compound shocks: climate disruption, food-system fragility, automation, geopolitical contestation, supply-chain volatility and declining institutional legitimacy. These pressures do not remain in separate sectors. They travel through the foundational systems by which societies inhabit everyday life, nourish people, recognise contribution, govern intelligence and retain the capacity to make.</p>
+            <p>Crises can accelerate change, but they do not determine its direction. Without credible alternatives, legitimate mandates and distributed capacity, shocks can deepen scarcity, extraction and control. One possible role for Dm05 could therefore be to help construct options and institutional capacity before they are urgently required.</p>
+
+            <blockquote class="proposition">Could Dm05 become a shared space for developing the institutional capacities through which societies protect and expand five conditions of life and distributed agency under compound shock: the capacity to be nourished, to become and contribute beyond instructed labour, to constitute machine relations, to make and to inhabit?</blockquote>
+
+            <ol class="shorthand">
+              <li data-field="01"><span>01</span>Coupled nutritional risk → a guaranteed nutritional floor</li>
+              <li data-field="02"><span>02</span>Automation shock → a post-labour human settlement</li>
+              <li data-field="03"><span>03</span>Machine certainty → doubtful, tentative and tender relations</li>
+              <li data-field="04"><span>04</span>Productive dependency → a federated triple-use micro-massive industrial base</li>
+              <li data-field="00"><span>00</span>Extractive property → the self-owning FreeHouse</li>
+            </ol>
+
+            <div class="working-hypotheses reveal">
+              <p class="micro-label">Four working hypotheses</p>
+              <h3>Claims to expose, test and revise with others.</h3>
+              <p>First, a <strong>life-ennobling economics</strong>: the conditions of human, non-human and more-than-human life are indivisible. Nourishment, shelter, care, climate, materials and ecological repair cannot be optimised separately without moving costs and harms elsewhere.</p>
+              <p>Second, transition may become increasingly <strong>crisis-shaped</strong> rather than growth-led. The practical task is to construct options, legitimate mandates and distributed capabilities before disruption compresses time and choice.</p>
+              <p>Third, <strong>security economics</strong> may reorganise public authority, markets, commons and civic production as food, shelter, energy, compute and productive capacity become questions of continuity and collective survival.</p>
+              <p>Fourth, <strong>mass multi-agent organising</strong>—human and machine, institutional and civic—may become vital in the face of growing authoritarianism and extractivism, enabling large populations to comprehend risk, form distributed agency and maintain many-to-many agreements.</p>
+              <p class="hypothesis-boundary"><span>A shared boundary</span>Plural life, not a universal index; preparedness, not crisis capture; civil and democratic security, not total securitisation; distributed agency, not automated conformity. Consent, rights, legibility, contestability and meaningful exit remain constitutive conditions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section page" id="fields" aria-labelledby="fields-title">
+        <div class="fields-intro reveal">
+          <p class="section-kicker">02 / Five possible landscapes</p>
+          <h2 class="display-heading" id="fields-title">Five conditions of life and distributed agency we may need to reorganise together.</h2>
+        </div>
+
+        <div class="fields-grid reveal">
+          <a class="field-card" data-field="01" href="#nutrition">
+            <div class="field-top"><span>01 · Guaranteeing nutrition through compound shock</span><span class="field-dot" aria-hidden="true"></span></div>
+            <h3>Coupled nutritional risk and a guaranteed nutritional floor</h3>
+            <div class="field-transition"><span>Food access dependent on normal markets</span><span>→</span><span>An enforceable nutritional floor</span></div>
+          </a>
+          <a class="field-card" data-field="02" href="#contribution">
+            <div class="field-top"><span>02 · Reconstituting life beyond instructed labour</span><span class="field-dot" aria-hidden="true"></span></div>
+            <h3>Automation shock and the post-labour human settlement</h3>
+            <div class="field-transition"><span>Labour-dependent livelihood and recognition</span><span>→</span><span>Unconditional foundations and contribution infrastructure</span></div>
+          </a>
+          <a class="field-card" data-field="03" href="#machines">
+            <div class="field-top"><span>03 · Constituting machine–human–ecological relations</span><span class="field-dot" aria-hidden="true"></span></div>
+            <h3>Machine certainty and doubtful, tentative and tender relations</h3>
+            <div class="field-transition"><span>Concentrated ownership, certainty and dependency</span><span>→</span><span>Doubt, tentativeness, tenderness and meaningful exit</span></div>
+          </a>
+          <a class="field-card" data-field="04" href="#industry">
+            <div class="field-top"><span>04 · Federating capacity under strategic fragility</span><span class="field-dot" aria-hidden="true"></span></div>
+            <h3>Productive dependency and a triple-use micro-massive industrial base</h3>
+            <div class="field-transition"><span>Concentrated productive dependency</span><span>→</span><span>One distributed base with three uses</span></div>
+          </a>
+          <a class="field-card" data-field="00" href="#home">
+            <div class="field-top"><span>00 · Securing inhabitation beyond extraction</span><span class="field-dot" aria-hidden="true"></span></div>
+            <h3>Extractive property and the self-owning FreeHouse</h3>
+            <div class="field-transition"><span>Transferable extraction rights</span><span>→</span><span>Self-owning property in service of inhabitation</span></div>
+          </a>
+        </div>
+      </section>
+
+      <div class="page">
+        <section class="mission" id="nutrition" data-field="01" aria-labelledby="nutrition-title">
+          <div class="mission-number reveal">01<small>A continuity guarantee</small></div>
+          <div class="mission-main reveal">
+            <p class="section-kicker">Nutrition as a civil-continuity obligation</p>
+            <h2 id="nutrition-title">Coupled nutritional risk and a guaranteed nutritional floor</h2>
+            <blockquote class="governing-question">How might societies guarantee adequate, affordable and culturally situated nutrition through compound shock—while using the work of continuity to accelerate ecological and productive transformation?</blockquote>
+            <p>The risk is not simply that food becomes scarce. Climate instability, depleted soil and water, energy and fertiliser shocks, disrupted trade and logistics, and household-income stress may increasingly move together. Food may remain present in aggregate while calories, protein, micronutrients, safe water and cooking energy become inaccessible to many.</p>
+            <p>What appears threatened is a foundational continuity floor: the embodied conditions for health, learning, care, social stability and human becoming. Might nutrition therefore be understood not as a residual welfare provision, but as a shared and enforceable obligation—defined publicly, tested continuously and differentiated by life stage, health and cultural context?</p>
+            <p>This could lead towards an infrastructure of sensing and readiness: dependency maps, stress tests and early triggers; diverse production and processing; adaptable logistics, reserves, public kitchens and procurement; and capital able to hold capability before it is urgently needed. The invitation is to join continuity and transformation, so that crisis expenditure protects access now while repairing the ecological and institutional conditions that repeatedly generate fragility.</p>
+            <p>A first proof might begin in one place or bioregion: define the floor, identify who carries which duties, rehearse likely failures and contract for readiness. Its test would be practical: does the system preserve dignified access through disruption while leaving the place more diverse, capable and ecologically secure?</p>
+            <p>Any guarantee would need clear limits. Food security must not become a pretext for land enclosure, dietary homogenisation, discriminatory rationing, technological dependency or permanent emergency power.</p>
+            <details>
+              <summary>Possible early inquiries</summary>
+              <ul class="inquiries">
+                <li>Who may define the nutritional floor, and who must guarantee it?</li>
+                <li>Which capacities should be held locally, bioregionally or across supply chains?</li>
+                <li>How might maintained readiness and avoided breakdown be valued?</li>
+                <li>Can emergency action expand future agency rather than preserve fragility?</li>
+              </ul>
+            </details>
+            <p class="closing-invite">We would like to explore this with those holding nutrition justice, public health, farming, logistics, procurement, ecological repair, emergency planning and financial stability in practice.</p>
+          </div>
+          <aside class="mission-aside reveal" aria-labelledby="nutrition-open">
+            <h3 id="nutrition-open">Questions to keep open / Nutritional guarantee</h3>
+            <ul>
+              <li>What would resilient interdependence look like without defaulting to autarky?</li>
+              <li>Who authorises intervention before household access collapses?</li>
+              <li>How can plurality, dignity and agency remain protected under pressure?</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="mission" id="contribution" data-field="02" aria-labelledby="contribution-title">
+          <div class="mission-number reveal">02<small>A post-labour settlement</small></div>
+          <div class="mission-main reveal">
+            <p class="section-kicker">Reconstituting life beyond instructed labour</p>
+            <h2 id="contribution-title">Automation shock and the post-labour human settlement</h2>
+            <blockquote class="governing-question">How might societies protect unconditional dignity and material security through automation shock, while building the conditions through which people can learn, care, contribute, organise and author shared worlds beyond instructed labour?</blockquote>
+            <p>The risk is larger than job displacement. Automation may unsettle the labour-centred settlement through which income, housing, nutrition, identity, development, belonging and political recognition have been organised. If machine capability advances before another settlement can be formed, loss of employment may become a wider loss of agency, standing and material security.</p>
+            <p>What is at stake is the capacity to become: to learn and exercise judgment; to care and form relationships; to make meaning and participate in shaping shared worlds. These are not private reserves of adaptability. They depend upon nutrition, secure inhabitation, health, time, safety and social infrastructure—and should not be reduced to a race to remain useful to machines.</p>
+            <p>Might a post-labour settlement begin with an unconditional material and civic floor, making income, care, housing, learning, rights and belonging less dependent upon employment? This would not reward approved contribution. It would create the ground from which free contribution and human development could become possible.</p>
+            <p>A second layer might consist of shared infrastructures of becoming: places and institutions for learning, care, making, culture, deliberation, stewardship and repair. Many-to-many organising could help people comprehend change, form distributed agency and negotiate transition, while shared ownership, public stakes and dividends could return some machine-generated value to the lives and places from which it arises.</p>
+            <p>This is not a prediction of an immediate or universal end of work. It is an invitation to ask whether dignity and belonging can remain safely conditional on employment as work becomes more uneven—and whether a transition could expand human authorship rather than merely smooth labour-market adjustment.</p>
+            <details>
+              <summary>Possible early inquiries</summary>
+              <ul class="inquiries">
+                <li>Which essentials need to become independent of employment first?</li>
+                <li>What could a place-based commons of learning, care and civic action become?</li>
+                <li>Who should own and benefit from machine-generated value?</li>
+                <li>How might contribution be recognised without becoming compulsory or ranked?</li>
+              </ul>
+            </details>
+            <p class="closing-invite">We would like to explore this with workers, unions, young people, educators, carers, artists, civic institutions, small enterprises and those already building new forms of ownership, learning and contribution.</p>
+          </div>
+          <aside class="mission-aside reveal" aria-labelledby="contribution-open">
+            <h3 id="contribution-open">Questions to keep open / Human becoming beyond labour</h3>
+            <ul>
+              <li>What institutions can support becoming without prescribing a desirable human?</li>
+              <li>Which forms of contribution should remain beyond measurement or transaction?</li>
+              <li>How might productivity gains widen shared agency rather than concentrate power?</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="mission" id="machines" data-field="03" aria-labelledby="machines-title">
+          <div class="mission-number reveal">03<small>A relational constitution</small></div>
+          <div class="mission-main reveal">
+            <p class="section-kicker">Constituting relations with machine agency</p>
+            <h2 id="machines-title">Machine certainty and doubtful, tentative and tender relations</h2>
+            <blockquote class="governing-question">How might we constitute machine–human–ecological relations in which doubt, plurality and care are real operating conditions—and people and living systems retain agency, authority, benefit, refusal and meaningful exit?</blockquote>
+            <p>The question may be larger than what machines can do. As systems remember, classify, recommend, allocate and increasingly act, capability can quietly harden into dependency and unanswerable authority. The risk is not only to employment or privacy, but to our capacity to judge, disagree, remain responsible and shape the conditions under which intelligence operates.</p>
+            <p><strong>Doubtful, tentative and tender machines</strong> suggest another direction. A doubtful machine would disclose uncertainty, provenance, limits and disagreement. A tentative machine would work within bounded mandates, preserve alternatives and remain interruptible before consequential action. A tender machine would carry enforceable duties towards context, vulnerability and ecological consequence—not merely perform an empathetic tone. These qualities would need to be constituted in the relationship, rather than added at the interface.</p>
+            <p>This points towards a <strong>machine–human–ecological relational constitution</strong>: arrangements governing who owns models, data and compute; who may give a machine its mandate; what it may remember or forget; where authority ends; who remains liable; how value is shared; and how a person, community or ecological steward can contest, alter or end the relationship. This institutional dark matter may determine what kind of machine becomes possible.</p>
+            <p>One proof might establish a bounded machine relationship around a community, public function or ecology—held through a trust or common, operating under a legible mandate, with memory and compute covenants, independent assurance and practical routes to refusal, redress and exit. The test would be whether machine capacity distributes judgment and agency rather than enclosing them. Doubt cannot become a disclaimer, tenderness a simulation of care, or tentativeness an alibi for inaction; some forms of delegation may simply be illegitimate.</p>
+            <details>
+              <summary>Possible early inquiries</summary>
+              <ul class="inquiries">
+                <li>Personal, collective and ecological machine trusts with fiduciary duties.</li>
+                <li>Public mandate registries making delegated authority, duration and revocation visible.</li>
+                <li>Memory, compute and assurance covenants testing provenance, reversibility and consequence.</li>
+              </ul>
+            </details>
+            <p class="closing-invite">We would like to explore this with communities living with automated systems, technologists, workers, ecological stewards, lawyers, philosophers and public institutions already negotiating alternative relations with machine agency.</p>
+          </div>
+          <aside class="mission-aside reveal" aria-labelledby="machines-open">
+            <h3 id="machines-open">Questions to keep open / Machine relations</h3>
+            <ul>
+              <li>Who can legitimately mandate a machine to act for a person, community, institution or ecology?</li>
+              <li>Which machine relationships should be constituted differently—and which should not exist?</li>
+              <li>Can refusal remain meaningful when machine infrastructures become socially indispensable?</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="mission" id="industry" data-field="04" aria-labelledby="industry-title">
+          <div class="mission-number reveal">04<small>A federated productive base</small></div>
+          <div class="mission-main reveal">
+            <p class="section-kicker">Industrialising the transition under strategic fragility</p>
+            <h2 id="industry-title">Productive dependency and a triple-use micro-massive industrial base</h2>
+            <blockquote class="governing-question">How might Europe build a productive base that is micro in unit, massive in aggregate—and able to serve civic transformation, civilian security and a new generation of machine-assisted micro-enterprise, while capability, value and accountability remain rooted in place?</blockquote>
+
+            <p>The risk is not simply that Europe makes too little. Efficiency-led globalisation has separated production from the places that depend upon it: lengthening carbon-heavy supply chains, externalising extraction, hollowing out skills and outsourcing practical learning. We can legislate transition targets while lacking the tools and institutions to materialise them. Under volatility, this becomes an inability to repair, adapt or rapidly reconfigure the systems on which everyday life depends.</p>
+
+            <p>A <strong>micro-massive industrial base</strong> proposes another topology: SMEs as its backbone; makers, fab labs and pro-amateurs as an experimental edge; and neighbourhood capacity as distributed redundancy. It is neither a nostalgic return to craft nor a claim that distribution should replace strategic large-scale industry. It is a new, complementary industrial layer whose autonomous nodes become massive through federation.</p>
+
+            <p>Advances in distributed 3D and additive manufacturing—across materials, scale, speed and tolerances—are widening what can be made locally. Digital inventory and tool-light reconfiguration could move a node between retrofit components, legacy spares and crisis goods without a dedicated line. Modular robotics and AI extend this capacity: translating needs into manufacturable designs, adapting them to local materials and equipment, matching demand with verified capacity, coordinating production and logistics, supporting assurance and maintenance, and circulating learning across the federation.</p>
+
+            <p class="framework-label">One productive base, three mutually reinforcing uses</p>
+            <ol class="triple-use" aria-label="Three mutually reinforcing uses">
+              <li>
+                <h3>Civic transformation</h3>
+                <p>Neighbourhood fabrication spaces and regional microfactories could support retrofit, repair, material stewardship, climate adaptation and rapid civic response—giving places an everyday capacity to shape and maintain their transition.</p>
+              </li>
+              <li>
+                <h3>Civilian security</h3>
+                <p>The same network could hold verified redundancy and pre-agreed surge capacity for critical components, medical equipment, water systems, energy infrastructure and shelter. Civilian persistence would become a primary layer of security.</p>
+              </li>
+              <li>
+                <h3>Micro-enterprise dynamism</h3>
+                <p>Shared AI, robotics, equipment, finance and demand could make locally owned micro-enterprise a distributed growth engine. Machine learning would work with <em>natural learning</em>—the tacit, situated judgment of makers and workers—strengthening rather than displacing their agency.</p>
+              </li>
+            </ol>
+
+            <p>These are not separate programmes. Enterprise keeps equipment, skills and innovation alive; civic demand directs them towards shared needs; security commitments pay for readiness that ordinary markets discard. An <strong>industrial commons</strong> could hold the dark matter between nodes: governed design and AI infrastructure, shared standards and certification, material provenance, capacity registries, pooled procurement, patient finance and civilian activation protocols. Cities could aggregate demand, bioregions could anchor circular material flows, and European federation could make local autonomy dependable at scale.</p>
+
+            <p>A first proof might connect workshops, SMEs, vocational institutions, public buyers and material systems across one city–bioregion. It could establish the commons, invest in shared additive and robotic infrastructure, and contract the same network for civic work, enterprise orders and emergency availability. The test is whether it moves between all three uses without surrendering local ownership or public purpose. Europe is a site hypothesis, not a claim to exceptionalism. Distribution must not become unpaid labour or imported extraction; AI must not centralise productive intelligence; and security must not quietly militarise civic capacity.</p>
+            <details>
+              <summary>Possible early inquiries</summary>
+              <ul class="inquiries">
+                <li>City–bioregion demonstrators combining civic procurement, circular feedstocks and verified surge contracts.</li>
+                <li>Governed AI, design, certification and cyber-secure coordination for federated producers.</li>
+                <li>Commons and finance models that value distributed capacity, readiness and redundancy.</li>
+              </ul>
+            </details>
+            <p class="closing-invite">We would like to explore this with makers, SMEs, workers, unions, neighbourhood organisations, cities, bioregions, procurers, vocational institutions, civilian-security actors, additive manufacturers, roboticists and AI and material practitioners.</p>
+          </div>
+          <aside class="mission-aside reveal" aria-labelledby="industry-open">
+            <h3 id="industry-open">Questions to keep open / Micro-massive production</h3>
+            <ul>
+              <li>Which capabilities benefit from radical distribution, and which still require strategic concentration?</li>
+              <li>What would make thousands of autonomous nodes reliable enough to act as one system?</li>
+              <li>How might civilian purpose, local ownership and meaningful work remain prior when productive capacity acquires security value?</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="mission" id="home" data-field="00" aria-labelledby="home-title">
+          <div class="mission-number reveal">00<small>A lived property constitution</small></div>
+          <div class="mission-main reveal">
+            <p class="section-kicker">Securing inhabitation beyond extraction</p>
+            <h2 id="home-title">Extractive property and the self-owning FreeHouse</h2>
+            <blockquote class="governing-question">How might homes own themselves—separating secure rights of inhabitation from transferable rights of extraction, while retaining the value they create for maintenance, stewardship and replication?</blockquote>
+            <p>The risk extends beyond unaffordability. The house has become a leveraged claim on future income and land value: a vehicle for rent, debt and speculative gain. These claims hollow out the <strong>polycapital economy of the household</strong>—its time, health, care, relationships, skills, material security and capacity to withstand disruption. A house may rise in price while the life within it becomes increasingly fragile.</p>
+            <p>It may help to distinguish the house—the material asset and its ecological metabolism—from the home, a secure relation of inhabitation, and the household, an economy of social reproduction beyond any single family form. The <strong>FreeHouse</strong> is a property constitution placing the asset in service of inhabitation; the neighbourhood is the shared layer through which homes might federate capacities, risks and infrastructures.</p>
+            <p>A <a class="inline-link" href="https://provocations.darkmatterlabs.org/freehouse-tkaronto-4e6c2d27967a">FreeHouse</a> could hold its own title through an asset-locked, purpose-bound entity. Residents might hold enforceable rights to inhabit, participate, adapt, pass occupancy to a successor and leave, while no external party retains an unrestricted right to extract rent, speculate or sell the asset for private windfall. Self-ownership would mean governance answerable to conditions of inhabitation, not transferable ownership claims.</p>
+            <p>Released from short-term extraction, homes could support longer horizons of care and stewardship: producing energy, retaining water, storing carbon, restoring soil, hosting multiple species, and providing space for learning, repair and fabrication. A first proof might convert a cluster into asset-locked FreeHouses, establish resident constitutions and reserves, federate neighbourhood functions, and test whether secure inhabitation and retained household value improve without speculative appreciation.</p>
+            <p>The FreeHouse must not become second-tier tenure, a withdrawal of public responsibility, or a new enclosure of domestic labour, data and ecological value. Its test is whether it expands secure inhabitation and collective capability while reducing extraction.</p>
+            <details>
+              <summary>Possible early inquiries</summary>
+              <ul class="inquiries">
+                <li>Acquisition pathways able to retire existing extractive claims.</li>
+                <li>Living charters securing voice, succession, adaptation and fair exit.</li>
+                <li>Neighbourhood federations, maintenance reserves and multi-value payer agreements.</li>
+              </ul>
+            </details>
+            <p class="closing-invite">We would like to test this proposition with residents, tenants, municipalities, community institutions, housing and finance practitioners, builders and ecologists already constructing non-extractive forms of inhabitation.</p>
+          </div>
+          <aside class="mission-aside reveal" aria-labelledby="home-open">
+            <h3 id="home-open">Questions to keep open / FreeHouse</h3>
+            <ul>
+              <li>How could existing land, debt and investor claims be retired without requiring a speculative exit?</li>
+              <li>What keeps a FreeHouse open, adaptable and protected against financial or platform capture?</li>
+              <li>Which obligations belong to the home, its federation and the state?</li>
+            </ul>
+          </aside>
+        </section>
+      </div>
+
+      <section class="section page" id="connections" aria-labelledby="connections-title">
+        <div class="editorial-grid reveal">
+          <div class="rail"><p class="section-kicker">03 / A combinatorial portfolio</p></div>
+          <div class="reading">
+            <h2 class="display-heading" id="connections-title">No landscape transforms alone.</h2>
+            <p class="lead">These are distinct capacities, but their risks, institutions and possibilities continually shape one another.</p>
+            <p>The portfolio may therefore be better understood as a field of reinforcing transitions than as five parallel programmes. A nutritional floor becomes part of the post-labour settlement. Machine ownership shapes whether automation expands human agency. Distributed production depends on governable intelligence. The FreeHouse grounds repair, stewardship and enterprise in places held beyond extraction. Homes and neighbourhoods, in turn, can support provisioning—without making households responsible for systemic failure.</p>
+            <p>The FreeHouse is one lived and constitutional interface within this field, not its sole site or causal centre. The five landscapes form a loop, with other cross-cutting connections—particularly between nutritional continuity and distributed capacities for growing, storing, processing and adaptation.</p>
+          </div>
+        </div>
+
+        <div class="operating-sites reveal">
+          <div class="operating-sites-head">
+            <p class="micro-label">Sites of operation</p>
+            <div>
+              <h3>A nested and networked geography of action.</h3>
+              <p>Across all five landscapes, work might begin in a location, a street, a neighbourhood, a city, a bioregion or a transnational hydro-climatic knot—and then follow the dependencies that connect them.</p>
+            </div>
+          </div>
+
+          <ol class="site-scale">
+            <li>
+              <h4>A location</h4>
+              <p>A home, farm, workshop or school where lived conditions and practical proofs become visible.</p>
+            </li>
+            <li>
+              <h4>A street</h4>
+              <p>A fabric of neighbouring, material flows and immediate agreement.</p>
+            </li>
+            <li>
+              <h4>A neighbourhood</h4>
+              <p>A field for civic capacity, common provisioning and everyday institutions.</p>
+            </li>
+            <li>
+              <h4>A city</h4>
+              <p>A scale of public mandate, infrastructure, procurement and redistribution.</p>
+            </li>
+            <li>
+              <h4>A bioregion</h4>
+              <p>A living system connecting food, water, energy, materials and ecological limits.</p>
+            </li>
+            <li>
+              <h4>A transnational hydro-climatic knot</h4>
+              <p>A cross-border coupling of waters, climates, infrastructures, provisioning flows and compound risk.</p>
+            </li>
+          </ol>
+
+          <div class="site-note">
+            <p class="micro-label">Not a ladder</p>
+            <p>Each site reveals different exposures, authorities and forms of agency. The question is what should remain close to place, what must be federated, and which decisions belong to those who will live with their consequences.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="architecture-section" id="architecture" aria-labelledby="architecture-title">
+        <div class="page">
+          <div class="architecture-head reveal">
+            <p class="section-kicker">04 / A provisional common architecture</p>
+            <div>
+              <h2 class="display-heading" id="architecture-title">From shock to deliberate transition</h2>
+              <p>Connecting the five landscapes is a further question: could we develop a shared capacity through which societies sense approaching disruption, construct options in advance, establish legitimate mandates, organise demand, mobilise capital and turn demonstrators into durable institutions?</p>
+            </div>
+          </div>
+
+          <ol class="architecture-grid reveal">
+            <li><h3>Sense</h3><p>Notice emerging shocks, dependencies and differentiated vulnerabilities.</p></li>
+            <li><h3>Stress-test</h3><p>Explore how disruption travels through populations, places, infrastructures and balance sheets.</p></li>
+            <li><h3>Construct options</h3><p>Develop plural pathways before urgency narrows the available choices.</p></li>
+            <li><h3>Authorise</h3><p>Build legitimate mandates, safeguards and activation protocols with those affected.</p></li>
+            <li><h3>Construct demand</h3><p>Aggregate procurement, payer commitments and advance-market mechanisms.</p></li>
+            <li><h3>Mobilise</h3><p>Compose public, philanthropic, patient and outcome-linked capital around the transition.</p></li>
+            <li><h3>Demonstrate</h3><p>Test whole systems, including ownership, governance, finance and public legitimacy.</p></li>
+            <li><h3>Federate and learn</h3><p>Compare evidence, revise assumptions and turn viable arrangements into durable institutions.</p></li>
+          </ol>
+
+          <div class="praxis-note reveal">
+            <p class="micro-label">Machine-assisted auto-praxis</p>
+            <p>Acting, observing consequences, revisiting assumptions and continuously adapting both intervention and institution. This is offered as a learning loop, not a fixed linear methodology.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="funding-section" id="funding" aria-labelledby="funding-title">
+        <div class="page">
+          <div class="funding-head reveal">
+            <p class="section-kicker">05 / A provisional funding and investment architecture</p>
+            <div>
+              <h2 class="display-heading" id="funding-title">Financing the capacity to know, organise and act at scale.</h2>
+              <p class="lead">Three mutually reinforcing anchor frameworks may be coming into view.</p>
+              <p>Many of the capabilities needed to preserve continuity and widen future options must be built before demand is legible, risk can be conventionally priced or established institutions can recognise their value. These are therefore offered as propositions to develop and govern with others, not as finished vehicles.</p>
+            </div>
+          </div>
+
+          <ol class="funding-anchors reveal">
+            <li class="funding-anchor">
+              <p class="fund-role">Capital architecture / Act at scale</p>
+              <h3>XCO — Expanding Civilisational Optionality</h3>
+              <p>XCO would construct population-scale, investable demand for stabilisation, resilience and the expansion of civilisational option space. Working across infrastructure, systemic liabilities and long-horizon risk, it would invest in the engines required to act at that scale: demand aggregation, risk pooling, new financing instruments, outcome accelerators and institutions capable of managing critical option-loss risks.</p>
+            </li>
+
+            <li class="funding-anchor">
+              <p class="fund-role">Organising and agreement architecture / Organise</p>
+              <h3>The Many-to-Many Organising Fund</h3>
+              <p>This fund would develop pathways of population-scale organisation: from sensing and collectively comprehending risk, through the formation of distributed agency, to the negotiation and evolution of many-to-many agreements. It would support the social, technological and governance infrastructures through which large populations can coordinate without collapsing into representation alone or crisis-driven simplification.</p>
+            </li>
+
+            <li class="funding-anchor">
+              <p class="fund-role">Knowledge and capability architecture / Know</p>
+              <h3>A matched pool for foundational and crisis-critical research</h3>
+              <p>A multi-tiered, matched pool would sustain inquiry and capability before conventional markets can recognise their value. It could connect exploratory research, capability formation and situated demonstration across the nutritional guarantee, the post-labour human settlement, doubtful machine relations, micro-massive production, the FreeHouse and other foundational domains still coming into view.</p>
+            </li>
+          </ol>
+
+          <p class="funding-thesis reveal">These are not simply three funding vehicles. Together they could finance three interdependent conditions of collective agency: the capacity to know, the capacity to organise and the capacity to act at scale.<small>The relationship is recursive: research expands the available options; organising enables populations to comprehend and legitimate them; capital makes coordinated action possible; and action generates new knowledge, agreements and investment needs.</small></p>
+
+          <details class="funding-questions reveal">
+            <summary>Questions to keep open / Funding collective agency</summary>
+            <ul class="inquiries">
+              <li>Who decides which civilisational options are protected or expanded—and whose liabilities or futures might otherwise be displaced?</li>
+              <li>What governance and decision rights should connect the three frameworks while preserving their distinct purposes?</li>
+              <li>How might public, philanthropic, common, patient and commercial capital be layered without enclosing collective capability or prematurely marketising foundational inquiry?</li>
+              <li>How might growing optionality and collective agency be recognised without reducing either to narrow financial metrics?</li>
+            </ul>
+          </details>
+        </div>
+      </section>
+
+      <section class="section page" id="practice" aria-labelledby="practice-title">
+        <div class="editorial-grid reveal">
+          <div class="rail"><p class="section-kicker">06 / How we might work</p></div>
+          <div class="reading">
+            <h2 class="display-heading" id="practice-title">Inquiry, demonstration and shared infrastructure.</h2>
+            <p class="lead">Each landscape might combine three connected forms of work.</p>
+          </div>
+        </div>
+
+        <div class="work-grid reveal">
+          <div class="work-card"><span>01</span><h3>Frontier inquiry</h3><p>Develop working hypotheses, reveal structural risks and widen the option space across disciplines and institutions.</p></div>
+          <div class="work-card"><span>02</span><h3>Situated demonstrators</h3><p>Test whole arrangements in real places—not only technologies, but ownership, governance, procurement, finance and legitimacy.</p></div>
+          <div class="work-card"><span>03</span><h3>Shared institutional infrastructure</h3><p>Build the legal forms, protocols, standards, capital vehicles and learning systems through which viable arrangements can federate and persist.</p></div>
+        </div>
+
+        <p class="role-note reveal">Dark Matter Labs would not need to claim ownership of these fields. Its most useful role may be to convene unusual alliances, connect knowledge usually held apart, help construct demand and capital, and prototype the institutional arrangements through which new capabilities become durable.</p>
+      </section>
+
+      <section class="guardrails" id="guardrails" aria-labelledby="guardrails-title">
+        <div class="page">
+          <p class="section-kicker">07 / Commitments we may need to hold</p>
+          <h2 class="display-heading" id="guardrails-title">Preparedness should expand agency—not legitimise enclosure.</h2>
+          <ul class="guardrail-words">
+            <li>Democratic legitimacy</li><li>Equitable distribution</li><li>Ecological integrity</li><li>Plural ownership</li>
+            <li>Secure tenure</li><li>Anti-displacement</li><li>Public provision</li><li>Transparency</li><li>Corrigibility</li><li>Reversibility</li><li>Contestability</li><li>Meaningful exit</li>
+          </ul>
+          <div class="guardrail-statement">
+            <p class="micro-label">A necessary boundary</p>
+            <p>Shock may open a window, but it should never confer unlimited authority. Any Dm05 work would need to resist the use of crisis to suspend rights, dispossess communities, eliminate contestability or normalise exceptional power.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="invitation page" id="invitation" aria-labelledby="invitation-title">
+        <div class="invitation-inner reveal">
+          <p class="section-kicker">08 / Open questions for the next phase</p>
+          <h2 class="display-heading" id="invitation-title">Where, how and with whom might these transitions become possible?</h2>
+          <p class="invitation-intro">Dm05 remains a direction rather than a settled programme. These questions are not a prelude to the work; they are part of how it might proceed.</p>
+
+          <ol class="open-question-grid">
+            <li class="open-question">
+              <h3>Where can transition be authored?</h3>
+              <p>Which geographies bring visible risk together with political legitimacy, institutional resilience, talent, civic capacity and room to act? How do we weigh urgency, readiness and strategic leverage without selecting only well-resourced places—or turning vulnerable places into sites of extractive experimentation?</p>
+            </li>
+
+            <li class="open-question">
+              <h3>What is our theory of intervention?</h3>
+              <p>Is our contribution to document emerging conditions; make risk legible; articulate options; convene unusual alliances; build shared comprehension; construct proofs of possibility; or invest in the capability through which others can organise and repeat them? What sequence connects these pathways, and where should Dm deliberately not act?</p>
+            </li>
+
+            <li class="open-question">
+              <h3>What institutional dark matter is missing?</h3>
+              <p>Which mandates, rights, property arrangements, procurement systems, standards, risk-sharing mechanisms, data infrastructures and financial vehicles would allow change to take root and cascade? What turns a demonstrator into a transition pathway, and who remains responsible for maintenance, accountability and repair?</p>
+            </li>
+
+            <li class="open-question">
+              <h3>Where do the five landscapes become one system?</h3>
+              <p>Which intersections create compounding capability, and which create new dependencies or correlated failure? Should these be five portfolios, one integrated mission architecture or a federation of both—and how are benefits and risks distributed across people, places and ecologies?</p>
+            </li>
+
+            <li class="open-question">
+              <h3>How should we work across geographies and value chains?</h3>
+              <p>How do food, water, materials, energy, data, labour, capital and risk move between places? What should be shared across distributed networks, and what must remain locally governed? How might multiple geographies act together without concentrating intelligence and ownership at the centre or exporting extraction elsewhere?</p>
+            </li>
+
+            <li class="open-question">
+              <h3>How will the direction learn and remain accountable?</h3>
+              <p>What evidence would cause us to revise or abandon an assumption? What signals should tell us to deepen, connect, pause, transfer or exit? Who defines success, who experiences the consequences, and who can contest or stop the work?</p>
+            </li>
+          </ol>
+
+          <p class="final-proposition">Could we build, together, across homes, streets, neighbourhoods, cities, bioregions and transnational knots, the institutional infrastructures through which societies protect and expand the capacity to be nourished, to become, to constitute machine relations, to make and to inhabit under compound shock?</p>
+          <div class="final-actions">
+            <a class="text-link external" href="https://darkmatterlabs.org/contact">Begin a conversation</a>
+            <a class="text-link up" href="#top">Return to the beginning</a>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-identity"><span class="identity-mark" aria-hidden="true">Dm<sup>05</sup></span><span>Dark Matter Labs</span></div>
+      <div class="footer-meta"><p>Dm05 · A possible mission direction</p><p>Working proposition · v1.0 · July 2026</p></div>
+      <div class="footer-note"><p>This document is intended to invite inquiry, critique, contradiction, partnership and examples already underway. It is not yet a settled programme or organisational commitment.</p></div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const progress = document.getElementById('progress-bar');
+      const toggle = document.querySelector('.nav-toggle');
+      const nav = document.getElementById('doc-nav');
+      const navLinks = [...nav.querySelectorAll('a')];
+      const sections = navLinks.map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const updateProgress = () => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        const value = max > 0 ? Math.min(100, Math.max(0, window.scrollY / max * 100)) : 0;
+        progress.style.width = value + '%';
+      };
+
+      toggle.addEventListener('click', () => {
+        const open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+        nav.classList.toggle('is-open', !open);
+      });
+
+      navLinks.forEach(link => link.addEventListener('click', () => {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      }));
+
+      const reveals = document.querySelectorAll('.reveal');
+      const supportsObserver = 'IntersectionObserver' in window;
+
+      if (supportsObserver) {
+        const sectionObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            navLinks.forEach(link => link.removeAttribute('aria-current'));
+            const active = navLinks.find(link => link.getAttribute('href') === '#' + entry.target.id);
+            if (active) active.setAttribute('aria-current', 'true');
+          });
+        }, { rootMargin: '-22% 0px -68% 0px', threshold: 0 });
+        sections.forEach(section => sectionObserver.observe(section));
+      }
+
+      if (reducedMotion || !supportsObserver) {
+        reveals.forEach(element => element.classList.add('is-visible'));
+      } else {
+        const revealObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            revealObserver.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+        reveals.forEach(element => revealObserver.observe(element));
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
